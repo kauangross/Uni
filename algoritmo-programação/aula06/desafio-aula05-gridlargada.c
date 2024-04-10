@@ -1,15 +1,7 @@
 #include <stdio.h>
 
-int main()
+void declarador(int piloto_largada[], int piloto_chegada[], int n)
 {
-    int n;
-    printf("Numero de pilotos: ");
-    scanf("%d", &n);
-    int piloto_largada[n];
-    int piloto_chegada[n];
-
-    printf("\n");
-
     for (int i = 0; i < n; i++) // declarador do grid inicial
     {
         printf("Posicao %d do grid de largada: ", (i+1));
@@ -23,11 +15,12 @@ int main()
         printf("Posicao %d do grid de chegada: ", (i+1));
         scanf("%d", &piloto_chegada[i]);
     }
-    
-    printf("\n"); 
+}
 
-    int aux = 0;
+int verificador(int piloto_largada[], int piloto_chegada[], int n)
+{
     int ultrapassagens = 0;
+    int aux = 0;
     for (int i = 0; i < n; i++) // verificador de ultrapassagens
     {
         for (int j = (i + 1); j < n; j++)
@@ -44,14 +37,35 @@ int main()
             }
         }   
     }
+    return ultrapassagens;
+}
+
+int main()
+{
+    // Número de pilotos
+    int n;
+    printf("Numero de pilotos: ");
+    scanf("%d", &n);
+
+    // Vetores dos pilotos
+    int piloto_largada[n];
+    int piloto_chegada[n];
     
-    for (int i = 0; i < n; i++)
+    printf("\n");
+
+    declarador(piloto_largada, piloto_chegada, n); // Chama a função para digitar os grids
+    
+    printf("\n"); 
+
+    int ultrapassagens = verificador(piloto_largada, piloto_chegada, n); // Chama a função que conta as ultrapassagens
+    
+    for (int i = 0; i < n; i++) // Digita os pilotos para verificar se o programa deu certo
     {
         printf("%d ", piloto_largada[i]);
         printf("%d \n", piloto_chegada[i]);
     }
 
-    printf("%d", ultrapassagens);
+    printf("%d ultrapassagens", ultrapassagens);
 
     return 0;
 }
