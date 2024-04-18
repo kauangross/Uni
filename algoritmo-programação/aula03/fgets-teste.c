@@ -10,9 +10,7 @@ int main()
     printf("%s", nome);
     
 
-    scanf("Digite seu nome %s\n", nome2);
+    scanf("%s\n", nome2);
     printf("%s", nome2);
-
-    ffluch(stdin);
     return 0;
 }
