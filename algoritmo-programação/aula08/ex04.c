@@ -4,15 +4,19 @@
 
 void teste_rapido()
 {
-    char ns1, igm, igg;
+    char ns1 = 'c';
+    //char igm;
+    //char igg;
     printf("Digite o resultado do teste NS1: ");
     scanf("%c", &ns1);
-    printf("Digite o resultado do teste igm: ");
-    scanf("%c", &igm);
-    printf("Digite o resultado do teste igg: ");
-    scanf("%c", &igg);
 
-    printf("%c %c %c", ns1, igm, igg);
+    printf("%c\n", ns1);
+
+    if (ns1 == 'c')
+    {
+        printf("Provavel infeccao previa.\n");
+    }
+    
 }
 
 int main()
@@ -20,15 +24,11 @@ int main()
     int tempo;
     printf("Digite o tempo de doença: ");
     scanf("%d", &tempo);
-    
-    teste_rapido();
-
-    /*
     if (tempo <= 6)
     {
         teste_rapido();
     } 
-    */
-       
+    
+
     return 0;
 }
