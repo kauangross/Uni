@@ -117,7 +117,7 @@ int verificador(int vetor[3][3], int n, int m, int cont)
     if (vetor [0][0] == vetor [0][1] && vetor [0][1] == vetor[0][2])
     {   
         return 1;
-    } else if (vetor [1][0] == vetor [1][1] && vetor [0][1] == vetor[1][2])
+    } else if (vetor [1][0] == vetor [1][1] && vetor [1][1] == vetor[1][2])
     {
         return 1;
     } else if (vetor [2][0] == vetor [2][1] && vetor [2][1] == vetor[2][2])
@@ -135,7 +135,7 @@ int verificador(int vetor[3][3], int n, int m, int cont)
     } else if (vetor [0][0] == vetor [1][1] && vetor [1][1] == vetor[2][2])
     {
         return 1;
-    } else if (vetor [2][2] == vetor [1][1] && vetor [1][1] == vetor[2][0])
+    } else if (vetor [2][0] == vetor [1][1] && vetor [1][1] == vetor[0][2])
     {
         return 1;
     } else if (cont == 9)
@@ -163,15 +163,21 @@ int main()
         tab(vetor, 3, 3, jogada); // Chama o tabuleiro
         contador++; // Adiciona mais um ao contador de jogadas (9 jogadas da velha)
         fim = verificador(vetor, 3, 3, contador); // Verifica se o x ganhou
-        
-        printf("Vai finalizar? %d", fim);
+        if (fim == 1) // Se fim retornar 1 da função, alguem ganhou ou deu velha e o jogoacaba
+        {
+            printf("X ganhou"); // Se entrar, x ganhou
+            break;
+        }
 
         jogada = vezO(vetor, 3, 3, aux, jogada); // Vez de jogar do O
         tab(vetor, 3, 3, jogada); // Chama o tabuleiro
         contador++; // Adiciona mais um ao contador de jogadas (9 jogadas da velha)
         fim = verificador(vetor, 3, 3, contador); // Verifica se o O ganhou
-        
-        printf("Vai finalizar? %d", fim);
+        if (fim == 1)
+        {
+            printf("O ganhou"); // Se entrar, O ganhou
+            break;
+        }
     } while(fim != 1);
     return 0;
 }
