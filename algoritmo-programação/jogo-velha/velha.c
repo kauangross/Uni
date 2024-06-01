@@ -147,9 +147,9 @@ int verificador(int vetor[3][3], int n, int m, int cont)
 
 int main()
 {
-    int vetor[3][3] = { 1, 2, 3,
+    int vetor[3][3] = { 7, 8, 9,
                         4, 5, 6,
-                        7, 8, 9 };
+                        1, 2, 3 };
     int aux;
     int contador = 0;
     int jogada;
