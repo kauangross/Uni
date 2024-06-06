@@ -30,14 +30,21 @@ Livro cadastrar_livros(){
     return livro_referencia;
 }
 
+Usuario cadastrar_Usuario(){
+    Usuario usuario_referencia;
+    fflush(stdin);
+    
+    return usuario_referencia;
+}
+
 void menu();
 
 int main()
 {
     Livro LIVRO[TAM_BIBLIOTECA];
-    //Usuario PESSOAS[TAM_USUARIOS];
+    Usuario PESSOAS[TAM_USUARIOS];
 
-    int chose, countB = 0;
+    int chose, countB, countU = 0;
 
     while (chose != 6)
     {
@@ -64,7 +71,7 @@ int main()
                 printf("Biblioteca atingiu o numero maximo de livros");
             break;
         case 2: // cadastrar usuario
-
+            
             break;
         case 3: // pegar livro
 
