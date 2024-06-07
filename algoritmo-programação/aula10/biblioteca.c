@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #define TAM_CHAR 50
 #define TAM_BIBLIOTECA 10
 #define TAM_USUARIOS 10
@@ -53,8 +54,8 @@ int main()
     Usuario USUARIO[TAM_USUARIOS];
 
     int chose, count, countU = 0;
-    count = 0;
-    countU = 0;
+    count = -1;
+    countU = -1;
     int selectU, selectL = {0};
 
     while (chose != 6)
@@ -66,62 +67,84 @@ int main()
         switch (chose)
         {
         case 1: // cadastrar livro
+            system("cls");
             if (count <= TAM_BIBLIOTECA)
             {
+                count++;
                 for (int i = 0; i < TAM_BIBLIOTECA; i++)
                 {
                     if (i == count)
                     {
                         LIVRO[i] = cadastrar_livros();
-                        printf("\nNome do livro: %sAutor do livro: %sQuantidade: %d obras", LIVRO[i].Titulo, LIVRO[i].Autor, LIVRO[i].Quant);
+                        system("cls"); // limpa a tela
+                        printf("\nSumario:\n");
+                        printf("Nome do livro: %sAutor do livro: %sQuantidade: %d obras", LIVRO[i].Titulo, LIVRO[i].Autor, LIVRO[i].Quant);
                     }
                 }
-                printf("contador %d\n", count);
-                count++;
             } else {
-                printf("contador %d\n", count);
                 printf("Biblioteca atingiu o numero maximo de livros\n");
             }
+            printf("\n");
+            printf("\nAperte enter\n");
+            getch(); // espera o usuario clicar para continuar
+            system("cls"); // limpa a tela
             break;
         case 2: // cadastrar usuario
+            system("cls");
             if (count <= TAM_USUARIOS)
             {
+                countU++;
                 for (int i = 0; i < TAM_USUARIOS; i++)
                 {
                     if (i == countU)
                     {
                         USUARIO[i] = cadastrar_Usuario();
-                        printf("\nNome: %s\nID: %d\n", USUARIO[i].Nome, USUARIO[i].Id);
+                        system("cls");
+                        printf("\nSumario: ");
+                        printf("\nNome: %sID: %d\n", USUARIO[i].Nome, USUARIO[i].Id);
                     }
                 }
-                countU++;
             } else {
                 printf("\nQuantidade maxima de usuarios no sistema atingida!\n");
             }
+            printf("\nAperte enter\n");
+            getch(); // espera o usuario clicar para continuar
+            system("cls"); // limpa a tela
             break;
         case 3: // pegar livro
+            system("cls");
             printf("Selecione o usuario\n");
-            for (int i = 0; i <= countU; i++)
+            if (countU >= 0 && countU >= 0)
             {
-                printf("[%d] Nome: %s", i+1, USUARIO[i].Nome);
-                printf("     Id: %d\n", USUARIO[i].Id);
-                printf("\n");
-            }
-            scanf("%d", &selectU);
-            printf("Selecione o livro\n");
-            for (int i = 0; i < count; i++)
-            {
-                printf("[%d] %s", i+1, LIVRO[i].Titulo);
-                printf("Autor: %s", LIVRO[i].Autor);
-                printf("%d em estoque\n", LIVRO[i].Quant);
-                printf("\n");
-            }
-            scanf("%d", &selectL);
-            LIVRO[(selectL-1)].Quant --; 
-        case 4: // devolver livro
-
+                for (int i = 0; i <= countU; i++)
+                {
+                    printf("[%d] Nome: %s", i + 1, USUARIO[i].Nome);
+                    printf("     Id: %d\n", USUARIO[i].Id);
+                    printf("\n");
+                }
+                scanf("%d", &selectU);
+                printf("Selecione o livro\n");
+                for (int i = 0; i < count; i++)
+                {
+                    printf("[%d] %s", i + 1, LIVRO[i].Titulo);
+                    printf("Autor: %s", LIVRO[i].Autor);
+                    printf("%d em estoque\n", LIVRO[i].Quant);
+                    printf("\n");
+                }
+                scanf("%d", &selectL);
+                system("cls");
+                printf("Livro registrado na lista de livros do usuario!\n");
+                LIVRO[(selectL - 1)].Quant--;
+                printf("\nAperte enter\n");
+                getch();       // espera o usuario clicar para continuar
+                system("cls"); // limpa a tela
+            } else
+                printf("Nao existem usuarios cadastrados\n");
             break;
+        //case 4: // devolver livro
+        //    break;
         case 5: // informações de sistema
+            system("cls"); // limpa a tela
             printf("Lista de livros\n");
             for (int i = 0; i < count; i++)
             {
