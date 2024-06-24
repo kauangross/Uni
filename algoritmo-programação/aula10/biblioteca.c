@@ -15,6 +15,7 @@ typedef struct
 {
     char Nome[TAM_CHAR];
     int Id;
+    int Livros_alugados;
 } Usuario;
 
 Livro cadastrar_livros(){
@@ -57,6 +58,7 @@ int main()
     count = -1;
     countU = -1;
     int selectU, selectL = {0};
+    USUARIO[TAM_USUARIOS].Livros_alugados = 0;
 
     while (chose != 6)
     {
@@ -122,7 +124,9 @@ int main()
                     printf("     Id: %d\n", USUARIO[i].Id);
                     printf("\n");
                 }
-                scanf("%d", &selectU);
+                scanf("%d", &selectU);                
+                USUARIO[selectU].Livros_alugados++;    
+                
                 printf("Selecione o livro\n");
                 for (int i = 0; i < count; i++)
                 {
@@ -139,7 +143,7 @@ int main()
                 getch();       // espera o usuario clicar para continuar
                 system("cls"); // limpa a tela
             } else
-                printf("Nao existem usuarios cadastrados\n");
+                printf("Nao existem usuarios cadastrados ou livros no sistema\n");
             break;
         //case 4: // devolver livro
         //    break;
@@ -159,6 +163,7 @@ int main()
             {
                 printf("[%d] Nome: %s", i+1, USUARIO[i].Nome);
                 printf("     Id: %d\n", USUARIO[i].Id);
+                printf("     Lista de livros alugados: %d\n", USUARIO[i].Livros_alugados);
                 printf("\n");
             }
             break;
