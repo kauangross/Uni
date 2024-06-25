@@ -14,7 +14,7 @@ void menu();
 
 void mostrar_estoque(Produto[], int);
 
-void SetProdutos(Produto[], int);
+void SetProdutos(Produto[]);
 
 Produto CriarProduto(int, char[], int, float); // Declaração do protótipo da função com os tipos de variáveis
 

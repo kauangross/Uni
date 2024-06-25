@@ -12,18 +12,18 @@ void menu(){
     printf("SAIR...                  [7]\n\n");
 }
 
-void mostrar_estoque(Produto produtos[], int tamanho_loja){ // Mostra o estoque da loja
-    for (int i = 0; i < tamanho_loja; i++) ///////////////////////////////////////////////////// CRIAR TABELA
+void mostrar_estoque(Produto produtos[], int codigo_final){ // Mostra o estoque da loja
+    for (int i = 0; i < codigo_final; i++) ///////////////////////////////////////////////////// CRIAR TABELA
     {
         printf("\nCodigo: %d\n", produtos[i].Codigo);
         printf("Descricao: %s\n", produtos[i].Descricao);
         printf("Estoque: %d\n", produtos[i].Estoque);
-        printf("valor: %f\n", produtos[i].Valor);
+        printf("valor: %.2f\n", produtos[i].Valor);
         printf("\n");
     }
 }
 
-void SetProdutos(Produto produto[], int tam) // Inicializa os produtos
+void SetProdutos(Produto produto[]) // Inicializa os produtos
 {
     produto[0] = CriarProduto(1, "Calca", 20, 112);
     produto[1] = CriarProduto(2, "Camisa", 18, 95);
@@ -35,7 +35,6 @@ void SetProdutos(Produto produto[], int tam) // Inicializa os produtos
     produto[7] = CriarProduto(8, "Tenis", 8, 183);
     produto[8] = CriarProduto(9, "Bota", 3, 219.90);
 }
-
 
 Produto CriarProduto(int codigo, char descricao[], int quantidade, float preco)
 { // Função para criar novos produtos, retornando um Produto
