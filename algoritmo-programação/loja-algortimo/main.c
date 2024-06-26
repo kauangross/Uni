@@ -5,17 +5,21 @@
 
 int main()
 {
-    Produto *produtos;
-    produtos = malloc(sizeof(Produto)* 10); // Vetor dinâmico do estoque com 10 produtos iniciais
-    SetProdutos(produtos); // Inicializa os produtos iniciais da loja
     int tamanho_loja = 10;
+    Produto *produtos;
+    produtos = malloc(sizeof(Produto)* tamanho_loja); // Vetor dinâmico do estoque com 10 produtos iniciais
+    SetProdutos(produtos); // Inicializa os produtos iniciais da loja
+
+    Compras *venda;
+    venda = malloc(sizeof(Compras) * 20); // Vetor com máximo de 20 compras
+
+    Carrinho carrinho; // Somente um, pois ele serve como auxiliar na hora da compra, somente
 
     int cod = 9; // auxiliares
     char desc[20];
     int quantidade;
     float valor;
-
-    int chose; // variavel de escolha do usuario
+    int chose;
     do
     {
         menu(); // Chama o menu
@@ -24,10 +28,29 @@ int main()
         switch (chose)
         {
         case 1: // Registrar venda
+            printf("Nome do cliente: ");
+            fgets(carrinho.Cliente, 50, stdin);
+            do
+            {
+                printf("Codigo do produto: ");
+                scanf("%d", &carrinho.Codigo_Produto);
+                if (carrinho.Codigo_Produto == 0)
+                {
+                    printf("Compra finalizada ao digitar 0.\n");
+                    break;
+                }
+                printf("Quantidade desejada: ");
+                scanf("%d", &carrinho.Quantidade_Produto);
+
+                CarrinhoDoCliente(carrinho, cod, produtos, venda);
+
+                printf("\nValor total na main :%f\n", carrinho.Valor_Total);
+            } while (carrinho.Codigo_Produto != 0);
+            
             
             break;
         case 2: // Repor estoque
-
+            ReporEstoque(produtos, cod);
             break;
         case 3: // Mostrar estoque
             mostrar_estoque(produtos, cod);
@@ -50,7 +73,7 @@ int main()
             printf("Digite o PDV do produto: ");
             scanf("%f", &valor);
 
-            if (tamanho_loja >= cod) // se o tamanho da loja atingir seu limite, aumenta seu tamanho em 5 
+            if (cod > tamanho_loja) // se o tamanho da loja atingir seu limite, aumenta seu tamanho em 5 
             {
                 tamanho_loja += 5;
                 printf("%d", tamanho_loja);
@@ -62,6 +85,8 @@ int main()
                     free(produtos);
                     return 1;
                 }
+    
+                free(produtos);
                 produtos = new_produtos; // Produtos recebe novo tamanho
                 free(new_produtos); // Libera esse vetor
             }
@@ -74,6 +99,5 @@ int main()
     } while (chose <= 6 && chose > 0); // Repete até a resposta for maior que 6 ou menor que 0
 
     mostrar_estoque(produtos, tamanho_loja);
-
     return 0;
 }
