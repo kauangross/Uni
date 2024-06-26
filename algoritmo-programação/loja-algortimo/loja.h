@@ -4,7 +4,7 @@
 //Structs:
 typedef struct { // Struct do estoque
     int Codigo;
-    char Descricao[20];
+    char Descricao[30];
     int Estoque;
     float Valor;
 } Produto;
@@ -18,24 +18,30 @@ typedef struct{
 
 typedef struct {
     char Cliente[50];
-    int Codigo_Produto[10];
-    int Quantidade_Produto[10];
+    char Descricao_Produto[30];
+    int Codigo_Produto;
+    int Quantidade_Produto;
     float Valor_Total;
 } Compras;
 
 //Protótipos:
 void menu();
 
-void mostrar_estoque(Produto[], int);
-
-void SetProdutos(Produto[]);
-
-Produto CriarProduto(int, char[], int, float); // Declaração do protótipo da função com os tipos de variáveis
+void CarrinhoDoCliente(Carrinho, int, Produto[], Compras[], int, int, double*, int);
+void FinalizarCompra(Carrinho, Compras[], Produto[], int, int, double*, int);
 
 void ReporEstoque(Produto[], int);
 
-void CarrinhoDoCliente(Carrinho, int, Produto[], Compras[]);
+void mostrar_estoque(Produto[], int);
 
-void FinalizarCompra(Carrinho, Compras[], Produto[]);
+void mostrar_compras(Compras[], int);
+
+void maior_compra(Compras[], int);
+
+void SetProdutos(Produto[]); 
+
+Produto CriarProduto(int, char[], int, float);
+
+void limpa_tela();
 
 #endif

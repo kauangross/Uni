@@ -20,59 +20,81 @@ int main()
     int quantidade;
     float valor;
     int chose;
+    int n_compra = 0;
+    double v_total = 0;
     do
     {
         menu(); // Chama o menu
         scanf("%d", &chose);
-
+        int aux_cod_produto, aux_quantidade_produto = {0};
         switch (chose)
         {
         case 1: // Registrar venda
+            fflush(stdin);
+            system("clear"); // Limpa a tela
+
+            printf("\n\n--Informe--\n");
             printf("Nome do cliente: ");
             fgets(carrinho.Cliente, 50, stdin);
+            carrinho.Cliente[strcspn(carrinho.Cliente, "\n")] = '\0';
             do
             {
-                printf("Codigo do produto: ");
-                scanf("%d", &carrinho.Codigo_Produto);
-                if (carrinho.Codigo_Produto == 0)
+                printf("\n-------------Sessao de vendas-------------\n\n");
+                printf("[0] para sair\nCodigo do produto: ");
+                scanf("%d", &aux_cod_produto);
+                if (aux_cod_produto == 0) // Se digitar zero finaliza
                 {
-                    printf("Compra finalizada ao digitar 0.\n");
+                    printf("Compra finalizada.\n");
                     break;
-                }
-                printf("Quantidade desejada: ");
-                scanf("%d", &carrinho.Quantidade_Produto);
+                } else if (aux_cod_produto > cod || aux_cod_produto < 0) // se não existir código
+                {
+                    printf("\nCodigo de produto inexistente!\n");
+                    limpa_tela();
+                    break;
+                } else {
+                    printf("Quantidade desejada: ");
+                    scanf("%d", &aux_quantidade_produto);
 
-                CarrinhoDoCliente(carrinho, cod, produtos, venda);
-
-                printf("\nValor total na main :%f\n", carrinho.Valor_Total);
+                    CarrinhoDoCliente(carrinho, cod, produtos, venda, aux_cod_produto, aux_quantidade_produto, &v_total, n_compra); // Função do carrinho
+                    n_compra++; // Contador para informar a posição do vetor de compra
+                } 
             } while (carrinho.Codigo_Produto != 0);
-            
-            
+            system("clear"); //
+            printf("Valor da venda: %.2lf\n", v_total);// Mostra o valor total da venda
+            v_total = 0; // Zera o valor total pois finalizou a seção de venda
+            limpa_tela();
             break;
         case 2: // Repor estoque
+            system("clear");
             ReporEstoque(produtos, cod);
+            limpa_tela();
             break;
         case 3: // Mostrar estoque
+            system("clear");
             mostrar_estoque(produtos, cod);
+            limpa_tela();
             break;
         case 4: // Mostrar compras
-
+            system("clear");
+            mostrar_compras(venda, n_compra);
+            limpa_tela();
             break;
         case 5: // Maior compra
-
+            system("clear");
+            maior_compra(venda, n_compra);
+            limpa_tela();
             break;
         case 6: // Adicionar mais produtos
+            system("clear");
             fflush(stdin); // Limpa o buffer
-
             cod++; // Adiciona 1 ao código de listagem dos produtos para que o próximo adicionado seja o anterior + 1
-
             printf("\nDigite a descricao do produto: "); // Informações do novo produto
             fgets(desc, 20, stdin);
+            desc[20] = '\0';
             printf("Digite a quantidade de estoque: ");
             scanf("%d", &quantidade);
             printf("Digite o PDV do produto: ");
             scanf("%f", &valor);
-
             if (cod > tamanho_loja) // se o tamanho da loja atingir seu limite, aumenta seu tamanho em 5 
             {
                 tamanho_loja += 5;
@@ -92,12 +114,12 @@ int main()
             }
 
             produtos[cod - 1] = CriarProduto(cod, desc, quantidade, valor); // Chama a função, adicionando os dados no vetor na posição do tamanho da loja - 1, que é a ultima posição
+            limpa_tela();
             break;        
         default:
+            printf("Saindo...");
             break;
         }
     } while (chose <= 6 && chose > 0); // Repete até a resposta for maior que 6 ou menor que 0
-
-    mostrar_estoque(produtos, tamanho_loja);
     return 0;
 }
