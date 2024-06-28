@@ -1,0 +1,17 @@
+Kia Sportage 2009 55 11.7
+Fiat Mobi 2018 47 15.8
+Volkswagen Fox 2019 50 14.6
+Kia Picanto 2014 35 14.3
+Volkswagen Up 2015 44 16.1
+Fiat Argo 2020 48 13.9
+Toyota Corolla 2013 60 12.7
+Fiat Cronos 2019 48 14.2
+Renault Clio 2008 50 12.1
+Volkswagen Gol 2016 55 13.9
+Peugeot 208 2019 55 14.0
+Toyota Prius 2018 43 19.8
+Chevrolet Corsa 2012 44 13.3
+Ford Ka 2012 52 15.4
+Chevrolet Prisma 2011 50 14.2
+Toyota Etios 2018 45 13.6
+Chevrolet Agile 2016 54 12.5

@@ -3,6 +3,8 @@
 #include <string.h>
 #include "loja.c"
 
+// Grupo : Kauan Gross, Eduarda Maciel e Artur Costa
+
 int main()
 {
     int tamanho_loja = 10;
