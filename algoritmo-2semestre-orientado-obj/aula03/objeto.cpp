@@ -61,7 +61,10 @@ int main()
     Cachorro *dog = new Cachorro("aa", "b", "c");
 
     cachorro->testeAnimal();
-    cachorro->testecachorro();
+    cachorro->testeCachorro();
+
+    dog->testeCachorro();
+    dog->testeAnimal();
 
     //meudog.funcaobaseAnimal();
     //meudog.funcaobasePet();

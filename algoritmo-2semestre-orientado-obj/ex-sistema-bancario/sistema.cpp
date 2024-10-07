@@ -160,8 +160,9 @@ public:
                 fflush(stdin); // limpa o buffer
 
                 contas_corrente.push_back(ContaCorrente(aux_titular, aux_saldo, (qntContas+1), 1, aux_limiteCheque));
-                contas[qntContas] = new ContaCorrente(aux_titular, aux_saldo, (qntContas+1), 1, aux_limiteCheque);
-                contas[qntContas]->exibirDetalhes();
+
+                //contas[qntContas] = new ContaCorrente(aux_titular, aux_saldo, (qntContas+1), 1, aux_limiteCheque);
+                contas_corrente[0].exibirDetalhes();
                 break;
             case 2:
                 cout << "Titular: ";
