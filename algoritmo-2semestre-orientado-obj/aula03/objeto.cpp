@@ -61,13 +61,17 @@ int main()
     Cachorro *dog = new Cachorro("aa", "b", "c");
 
     cachorro->testeAnimal();
-    cachorro->testeCachorro();
+    //cachorro->testeCachorro();
 
     dog->testeCachorro();
     dog->testeAnimal();
 
     //meudog.funcaobaseAnimal();
     //meudog.funcaobasePet();
+
+    vector<Animal*> vetor;
+
+    vetor.push_back(testeAnimal());
 
     delete cachorro;
     delete dog;
