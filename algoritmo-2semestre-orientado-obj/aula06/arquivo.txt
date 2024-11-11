@@ -1,0 +1,7 @@
+aaaaaaaaaa
+bbbbbbbb
+cccccc
+
+teste leitura com palavrasLinha adicionada
+texto
+0x62fe00

@@ -1,0 +1,16 @@
+Nome: celular
+Código: 2
+Preço: 85
+
+Nome: iphone
+Código: 2
+Preço: 2500
+
+Nome: celular 1
+Código: 1
+Preço: 2999
+
+Nome: celular 2
+Código: 2
+Preço: 1999
+
