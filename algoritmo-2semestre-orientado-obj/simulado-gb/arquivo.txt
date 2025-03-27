@@ -1,0 +1,15 @@
+Produto: geladeira fros free
+Codigo: 89
+Preco: 25
+
+Produto: motorola 
+Codigo: 58
+Preco: 159
+
+Produto: iphone 25
+Codigo: 47
+Preco: 23
+
+Produto: tevelisao
+Codigo: 0
+Preco: 400.81

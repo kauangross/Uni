@@ -847,11 +847,13 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1731345118 source:c:\users\kauan\onedrive\documentos\uni\algoritmo-2semestre-orientado-obj\trabalhofinal\browser\main.cpp
+1733253049 source:c:\users\kauan\onedrive\documentos\uni\algoritmo-2semestre-orientado-obj\trabalhofinal\browser\main.cpp
 	<SFML/Graphics.hpp>
 	<list>
+	<vector>
 	<string>
 	<iostream>
+	<fstream>
 
 1731106008 c:\users\kauan\onedrive\documentos\uni\algoritmo-2semestre-orientado-obj\trabalhofinal\sfml\include\sfml\graphics.hpp
 	<SFML/Window.hpp>

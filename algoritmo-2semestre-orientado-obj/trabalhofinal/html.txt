@@ -1,0 +1,15 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>My HTML page</title> 
+</head> 
+<body> 
+<h1>Title</h1> 
+<h2>Subtitle</h2> 
+
+<p>This is an exemplo of HTML paragraph This is an exemplo of HTML paragraph This is an exemplo of HTML paragraph</p> 
+
+<h2>Subtitle 2</h2>
+<p>Another paragraph of content.</p> 
+</body> 
+</html>
