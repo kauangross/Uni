@@ -1,0 +1,183 @@
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int valor;
+    node* esquerda;
+    node* direita;
+
+    node(int val) : valor(val), esquerda(nullptr), direita(nullptr) {}
+};
+
+class binarytree {
+private:
+    node* raiz;
+
+public:
+    binarytree() : raiz(nullptr) {}
+
+    void addnode(int val) {
+        node* newnode = new node(val);
+
+        if (!raiz) { 
+            raiz = newnode;
+            return;
+        }
+
+        node* temp = raiz;
+        while (temp != nullptr) {
+            if (val > temp->valor) { 
+                if (temp->direita == nullptr) {
+                    temp->direita = newnode;
+                    break;
+                }
+                temp = temp->direita;
+            } else if (val < temp->valor) { 
+                if (temp->esquerda == nullptr) {
+                    temp->esquerda = newnode;
+                    break;
+                }
+                temp = temp->esquerda;
+            }
+        }
+    }
+
+    node* AcharMaiorNodo(node* raiz_sub) {
+        while (raiz_sub->direita) {
+            raiz_sub = raiz_sub->direita;
+        }
+        return raiz_sub;
+    }
+
+    node* apagarnodo(node* temp, int valor) {
+        if (!temp) return temp;
+
+        if (valor < temp->valor) {
+            temp->esquerda = apagarnodo(temp->esquerda, valor);
+        } else if (valor > temp->valor) {
+            temp->direita = apagarnodo(temp->direita, valor);
+        } else {
+            // Caso 1: Nó folha
+            if (!temp->esquerda && !temp->direita) {
+                delete temp;
+                return nullptr;
+            }
+            // Caso 2: Apenas um filho
+            else if (!temp->esquerda) {
+                node* temp_aux = temp->direita;
+                delete temp;
+                return temp_aux;
+            } else if (!temp->direita) {
+                node* temp_aux = temp->esquerda;
+                delete temp;
+                return temp_aux;
+            }
+            // Caso 3: Dois filhos (remoção por cópia usando o maior da esquerda)
+            else {
+                node* temp_aux = AcharMaiorNodo(temp->esquerda);
+                temp->valor = temp_aux->valor;
+                temp->esquerda = apagarnodo(temp->esquerda, temp_aux->valor);
+            }
+        }
+        return temp;
+    }
+
+    void remover(int valor) {
+        raiz = apagarnodo(raiz, valor);
+    }
+
+    void mostrarPreOrdem(node* atual){
+        if(atual){
+            cout << atual->valor << ", ";
+            mostrarPreOrdem(atual->esquerda);
+            mostrarPreOrdem(atual->direita);
+        }
+    }
+
+    void mostrarEmOrdem(node* atual) {
+        if (atual != nullptr) {
+            mostrarEmOrdem(atual->esquerda);
+            cout << atual->valor << ", ";
+            mostrarEmOrdem(atual->direita);
+        }
+    }
+
+    void mostrarPosOrdem(node* atual){
+        if(atual){
+            mostrarPosOrdem(atual->esquerda);
+            mostrarPosOrdem(atual->direita);
+            cout << atual->valor << ", ";
+        }  
+    }
+
+    void mostrar() {
+        mostrarPreOrdem(raiz);
+        cout << endl;
+        mostrarEmOrdem(raiz);
+        cout << endl;
+        mostrarPosOrdem(raiz);    
+    }
+
+    void apagararvore(node* temp) {
+        if (!temp) return;
+        apagararvore(temp->esquerda);
+        apagararvore(temp->direita);
+        delete temp;
+    }
+
+    ~binarytree() {
+        apagararvore(raiz);
+    }
+
+    void altura(node* atual, int h){
+        if(atual){
+            altura(atual->esquerda, h);
+            altura(atual->direita, h);
+            h++;
+            if(atual == raiz){return;};
+            cout << "altura atual: "<< h << endl;
+        }
+    }
+
+    void mostrarIdentadaEsquerda(node* atual){
+        if(atual){
+           //cout << atual->valor;
+
+            mostrarIdentadaEsquerda(atual->esquerda);
+            
+            if(atual == raiz){return;};
+            mostrarIdentadaEsquerda(atual->direita);
+        }
+    }
+
+    void show(){
+        altura(raiz, 0);
+        mostrarIdentadaEsquerda(raiz);
+    }
+
+    /*void balanceamento(node* atual, int &contador){
+        if(atual){
+           balanceamento();
+        }
+    }*/
+};
+
+int main() {
+    binarytree arvore;
+    
+    arvore.addnode(4);
+    arvore.addnode(2);
+    arvore.addnode(6);
+    arvore.addnode(1);
+    arvore.addnode(3);
+    arvore.addnode(5);
+    arvore.addnode(7);
+
+    //arvore.mostrar();
+
+    arvore.show();
+
+    arvore.remover(50);
+    return 0;
+}

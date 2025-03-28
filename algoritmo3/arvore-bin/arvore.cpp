@@ -47,7 +47,6 @@ public:
     };
 
     void apagarnodo(node* temp, node* temp_pai, int valor){
-       
         if(valor == temp->valor){
             if(!temp_pai && temp == raiz){ // Se for a raiz
                 
@@ -55,7 +54,8 @@ public:
             }
 
             if (temp->esquerda && temp->direita){ // Se tiver dois filhos
-                apagarnodo_doisfilhos(temp->esquerda, valor); // Sub-árvore da esquerda para achar o maior nodo
+                node* temp_raiz = temp->esquerda;
+                apagarnodo_doisfilhos(temp->esquerda, temp_raiz, valor); // Sub-árvore da esquerda para achar o maior nodo
 
                 return;
             } else if (!temp->esquerda && !temp->direita){ // Se não tiver nenhum filho 
@@ -87,32 +87,30 @@ public:
     }
 //
     void apagarnodo_doisfilhos(node* temp, int valor){
-        node* temp_aux = temp;
-            achar_maior_nodo(temp_aux);
-        if (temp->valor >= valor){ // Procura o maior nodo da sub-árvore da esquerda
-             
-            return;
-        }
+        node* temp_aux = AcharMaiorNodo(temp_aux->esquerda, temp_aux->esquerda);
         
+        temp = temp_aux;
 
-        if(temp->direita){apagarnodo_doisfilhos(temp->direita, valor);
-        
-        return;
     }
 
-    void achar_maior_nodo(node* nodo, int valor){
-        if (nodo->valor > valor){
-            return;
+    Node* AcharMaiorNodo(Node* raiz_sub, node* sucessor;) {
+        while (raiz_sub->left) {
+            sucessor = raiz_sub;
+            raiz_sub = raiz_sub->left;
         }
+        return raiz_sub;
+    }
 
-        if(nodo->direita){
-            achar_maior_nodo(nodo->esquerda, valor);
+    void mostrarEmOrdem(node* atual){
+        if(raiz !- nullptr){return 0;
+        } else{
+            mostrarEmOrdem(atual->esquerda);
+            cout << atual->valor;
         }
-
-        return 0;
     }
 //
     void apagarraiz(node* temp){
+        
         if (temp != raiz){
             return;
         }
