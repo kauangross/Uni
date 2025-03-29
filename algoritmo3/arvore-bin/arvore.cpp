@@ -1,154 +1,220 @@
 #include <iostream>
+//#include "funcoes.cpp"
 using namespace std;
 
-class node{
+class node {
 public:
     int valor;
     node* esquerda;
     node* direita;
 
-    node(int val): valor(val), esquerda(nullptr), direita(nullptr){}
+    node(int val) : valor(val), esquerda(nullptr), direita(nullptr) {}
 };
 
-class binarythree{
+class binarytree {
 private:
-    node* raiz; 
+    node* raiz;
 
 public:
-    binarythree(): raiz(nullptr){}
+    binarytree() : raiz(nullptr) {}
 
-    void addnode(int val){
-        node* newnode = new node(val); 
+    void addnode(int val) {
+        node* newnode = new node(val);
 
-        if(!raiz){ // Se nao tiver raiz, o novo nodo vira a raiz
+        if (!raiz) { 
             raiz = newnode;
             return;
         }
 
         node* temp = raiz;
-
-        while (temp != nullptr){
-            if (newnode->valor > temp->valor) { // Se o nodo for maior
-                if (temp->direita == nullptr) { // E a raiz não tiver filho à direita
-                    temp->direita = newnode; // Vira filho
-                    break;  // Sai do laço, pois o nó foi inserido
+        while (temp != nullptr) {
+            if (val > temp->valor) { 
+                if (temp->direita == nullptr) {
+                    temp->direita = newnode;
+                    break;
                 }
-                temp = temp->direita; // Se tiver filho à direita, temp agora aponta ao filho
+                temp = temp->direita;
+            } else if (val < temp->valor) { 
+                if (temp->esquerda == nullptr) {
+                    temp->esquerda = newnode;
+                    break;
+                }
+                temp = temp->esquerda;
             }
-            else if (newnode->valor < temp->valor) { // Se o nodo for maior
-                if (temp->esquerda == nullptr) {  // E a raiz não tiver filho à direita
-                    temp->esquerda = newnode; // Vira filho
-                    break;  // Sai do laço, pois o nó foi inserido
-                }
-                temp = temp->esquerda; // Se tiver filho à esquerda, temp agora aponta ao filho
-            }    
         }
-
-    };
-
-    void apagarnodo(node* temp, node* temp_pai, int valor){
-        if(valor == temp->valor){
-            if(!temp_pai && temp == raiz){ // Se for a raiz
-                
-                return;
-            }
-
-            if (temp->esquerda && temp->direita){ // Se tiver dois filhos
-                node* temp_raiz = temp->esquerda;
-                apagarnodo_doisfilhos(temp->esquerda, temp_raiz, valor); // Sub-árvore da esquerda para achar o maior nodo
-
-                return;
-            } else if (!temp->esquerda && !temp->direita){ // Se não tiver nenhum filho 
-                if (temp_pai->esquerda == temp){ // Se for filho na esquerda, libera a memória do pai na esquerda
-                    temp_pai->esquerda = nullptr;
-                } else{ // Se for filho da direita, libera a memória do pai na direita
-                    temp_pai->direita = nullptr;
-                }    
-                delete temp;
-                return;
-            } else if(temp->esquerda && !temp->direita) { // Se tiver apenas um filho na esquerda
-                
-                temp_pai->esquerda = temp->esquerda;  // // O pai do nodo apagado vira pai do filho do nodo apagado
-                delete temp;
-                
-                return;
-            } else { // Se tiver apenas um na direita 
-                temp_pai->direita = temp->direita; // O pai do nodo apagado vira pai do filho do nodo apagado
-                delete temp;
-                return;
-            }
-            
-            return;
-        } // Se não houver mais folhas
-
-        if(temp->esquerda){apagarnodo(temp->esquerda, temp, valor);} // Se tiver nodo à esquerda, passa o da esquerda;
-        if(temp->direita){apagarnodo(temp->direita, temp, valor);} // Se tiver nodo à direita, passa o da direita, até achar o nodo que não possui filhos, então deleta eles na condição inicial da função
-        return;
-    }
-//
-    void apagarnodo_doisfilhos(node* temp, int valor){
-        node* temp_aux = AcharMaiorNodo(temp_aux->esquerda, temp_aux->esquerda);
-        
-        temp = temp_aux;
-
     }
 
-    Node* AcharMaiorNodo(Node* raiz_sub, node* sucessor;) {
-        while (raiz_sub->left) {
-            sucessor = raiz_sub;
-            raiz_sub = raiz_sub->left;
+    node* AcharMaiorNodo(node* raiz_sub) {
+        while (raiz_sub->direita) {
+            raiz_sub = raiz_sub->direita;
         }
         return raiz_sub;
     }
 
-    void mostrarEmOrdem(node* atual){
-        if(raiz !- nullptr){return 0;
-        } else{
-            mostrarEmOrdem(atual->esquerda);
-            cout << atual->valor;
+    node* apagarnodo(node* temp, int valor) {
+        if (!temp) return temp;
+
+        if (valor < temp->valor) {
+            temp->esquerda = apagarnodo(temp->esquerda, valor);
+        } else if (valor > temp->valor) {
+            temp->direita = apagarnodo(temp->direita, valor);
+        } else {
+            // Caso 1: Nó folha
+            if (!temp->esquerda && !temp->direita) {
+                delete temp;
+                return nullptr;
+            }
+            // Caso 2: Apenas um filho
+            else if (!temp->esquerda) {
+                node* temp_aux = temp->direita;
+                delete temp;
+                return temp_aux;
+            } else if (!temp->direita) {
+                node* temp_aux = temp->esquerda;
+                delete temp;
+                return temp_aux;
+            }
+            // Caso 3: Dois filhos (remoção por cópia usando o maior modo da sub-árvore esquerda)
+            else {
+                node* temp_aux = AcharMaiorNodo(temp->esquerda);
+                temp->valor = temp_aux->valor;
+                temp->esquerda = apagarnodo(temp->esquerda, temp_aux->valor);
+            }
+        }
+        return temp;
+    }
+
+    void remover(int valor) {
+        raiz = apagarnodo(raiz, valor);
+    }
+
+    void mostrarPreOrdem(node* atual){
+        if(atual){
+            cout << atual->valor << ", ";
+            mostrarPreOrdem(atual->esquerda);
+            mostrarPreOrdem(atual->direita);
         }
     }
-//
-    void apagarraiz(node* temp){
-        
-        if (temp != raiz){
-            return;
-        }
 
-        if (temp->esquerda && temp->direita){ // Se tiver dois filhos precisa escolher um
-                
-            return;
-        } else if (!temp->esquerda && !temp->direita){ // Se não tiver nenhum filho 
-            delete temp;
-            raiz = nullptr;
-            return;
-        } else if(temp->esquerda && !temp->direita) { // Se tiver apenas um filho na esquerda
-            raiz = temp->esquerda;  // O filho da esquerda vira a raiz;
-            delete temp;
-            return;
-        } else { // Se tiver apenas um na direita 
-            raiz = temp->direita; // O pai do nodo apagado vira pai do filho do nodo apagado
-            delete temp;
-            return;
+    void mostrarEmOrdem(node* atual) {
+        if (atual != nullptr) {
+            mostrarEmOrdem(atual->esquerda);
+            cout << atual->valor << ", ";
+            mostrarEmOrdem(atual->direita);
+        }
+    }
+
+    void mostrarPosOrdem(node* atual){
+        if(atual){
+            mostrarPosOrdem(atual->esquerda);
+            mostrarPosOrdem(atual->direita);
+            cout << atual->valor << ", ";
         }  
     }
 
-    void apagararvore(node* temp){ // Recursão - recebe a raiz ao chamar a funcao delete
-        if(temp->esquerda == nullptr && temp->direita == nullptr){delete temp; return;} // Se não houver mais folhas
-
-        if(temp->esquerda){apagararvore(temp->esquerda);} // Se tiver nodo à esquerda, passa o da esquerda;
-        if(temp->direita){apagararvore(temp->direita);} // Se tiver nodo à direita, passa o da direita, até achar o nodo que não possui filhos, então deleta eles na condição inicial da função
-
-        delete temp; // Deleta sempre a raiz da sub-árvore
+    void percorrer() {
+        mostrarPreOrdem(raiz);
+        cout << endl;
+        mostrarEmOrdem(raiz);
+        cout << endl;
+        mostrarPosOrdem(raiz);    
     }
+
+    void BuscarNodo(node* atual, node*& aux, int valorBusca){ // Se não encontra, atual recebe null e mantém o aux como null, retornando o ptr nulo
+        if (aux){return;}
     
-    ~binarythree(){
+        if(atual && atual->valor != valorBusca){
+            BuscarNodo(atual->esquerda, aux, valorBusca);
+            BuscarNodo(atual->direita, aux, valorBusca);
+        } else
+            aux = atual;
+    }
+
+    void t(){
+        //node* aux = BuscarNodo(raiz, 3);
+        node* aux = nullptr;
+        BuscarNodo(raiz, aux, 15);
+
+        if(aux==nullptr){
+            cout << "bret";
+        }else
+            cout << aux->valor;
+    }
+
+    void apagararvore(node* temp) {
+        if (!temp) return;
+        apagararvore(temp->esquerda);
+        apagararvore(temp->direita);
+        delete temp;
+    }
+
+    ~binarytree() {
         apagararvore(raiz);
     }
+
+    /*int balanceamento(node* atual){
+        if(atual){
+            balanceamento(atual->esquerda, h);
+            balanceamento(atual->direita, h);
+
+            if(atual == raiz){return;};
+            cout << "altura atual: "<< h << endl;
+        }
+    }*/
+
+    void Altura(node* atual, int &h) {
+        if (h == 0){h++;} // Desce um nível ao chamar a função, do nodo ao nodo filho
+
+        if(atual->esquerda && atual->direita){
+            h++;
+            if(atual->esquerda){Altura(atual->esquerda, h);}
+            if(atual->direita){Altura(atual->direita, h);}
+        } else if(atual->esquerda){
+            h++;
+            Altura(atual->esquerda, h);
+        } else if(atual->direita){
+            h++;
+            Altura(atual->direita, h);
+        }        
+    }
+
+    void BuscaAltura(){
+        int h = 0;
+        Altura(raiz->esquerda, h);
+        cout << h;
+    }
+
+    /*void mostrarIdentadaEsquerda(node* atual){
+        if(atual){
+           //cout << atual->valor;
+
+            mostrarIdentadaEsquerda(atual->esquerda);
+            
+            if(atual == raiz){return;};
+            mostrarIdentadaEsquerda(atual->direita);
+        }
+    }*/
 };
 
+int main() {
+    binarytree arvore;
+    
+    arvore.addnode(4);
+    arvore.addnode(2);
+    arvore.addnode(6);
+    arvore.addnode(1);
+    arvore.addnode(3);
+    arvore.addnode(5);
+    arvore.addnode(7);
 
-int main(){
+    //arvore.percorrer();
 
+    //arvore.show();
+
+    //arvore.BuscaAltura();
+
+    arvore.t();
+
+    arvore.remover(50);
     return 0;
 }
