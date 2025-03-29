@@ -40,7 +40,8 @@ public:
                     break;
                 }
                 temp = temp->esquerda;
-            }
+            } else
+                break;
         }
     }
 
@@ -206,8 +207,9 @@ int main() {
     arvore.addnode(3);
     arvore.addnode(5);
     arvore.addnode(7);
+    arvore.addnode(3);
 
-    //arvore.percorrer();
+    arvore.percorrer();
 
     //arvore.show();
 
