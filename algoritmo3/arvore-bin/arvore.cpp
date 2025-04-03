@@ -118,7 +118,8 @@ public:
         cout << endl;
         mostrarEmOrdem(raiz);
         cout << endl;
-        mostrarPosOrdem(raiz);    
+        mostrarPosOrdem(raiz);
+        cout << endl;
     }
 
     void BuscarNodo(node* atual, node*& aux, int valorBusca){ // Se não encontra, atual recebe null e mantém o aux como null, retornando o ptr nulo
@@ -185,16 +186,30 @@ public:
         cout << h;
     }
 
-    /*void mostrarIdentadaEsquerda(node* atual){
+    void mostrarIdentada(node* atual, int contador, bool esquerda){
         if(atual){
-           //cout << atual->valor;
+            for(int i = 0; i < contador; i++){//Utilizo a variável contador para medir a quantidade de espaços, deixando no terminal mais "indentado"
+                cout << "  ";
+            }
+            if(contador > 0){//Raiz não possui necessidade de informar se é esquerda ou direita.
+                if(esquerda == true){ //Se no parâmetro a booleana for verdadeira, então é o nodo da esquerda
+                    cout << "(E)";
+                }
+                else{ //Se é falsa, então é o nodo da direita
+                    cout << "(D)";
+                }
+            }
+            cout << atual->valor << endl;
+            contador += 1;
 
-            mostrarIdentadaEsquerda(atual->esquerda);
-            
-            if(atual == raiz){return;};
-            mostrarIdentadaEsquerda(atual->direita);
+            mostrarIdentada(atual->esquerda, contador, true); //nodo da esquerda
+            mostrarIdentada(atual->direita, contador, false); //nodo da direita
         }
-    }*/
+    }
+
+    void mostrar(){
+        mostrarIdentada(raiz, 0, 0);
+    }
 };
 
 int main() {
@@ -204,9 +219,11 @@ int main() {
     arvore.addnode(2);
     arvore.addnode(6);
     arvore.addnode(1);
+
     arvore.addnode(3);
     arvore.addnode(5);
     arvore.addnode(7);
+    arvore.addnode(0);
     arvore.addnode(3);
 
     arvore.percorrer();
@@ -215,7 +232,9 @@ int main() {
 
     //arvore.BuscaAltura();
 
-    arvore.t();
+    //arvore.t();
+    
+    arvore.mostrar();
 
     arvore.remover(50);
     return 0;
