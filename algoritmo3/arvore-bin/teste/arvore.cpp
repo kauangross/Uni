@@ -52,37 +52,37 @@ public:
         return raiz_sub;
     }
 
-    node* apagarnodo(node* temp, int valor) {
-        if (!temp) return temp;
+    node* apagarnodo(node* atual, int valor) {
+        if (!atual) return atual;
 
-        if (valor < temp->valor) {
-            temp->esquerda = apagarnodo(temp->esquerda, valor);
-        } else if (valor > temp->valor) {
-            temp->direita = apagarnodo(temp->direita, valor);
+        if (valor < atual->valor) {
+            atual->esquerda = apagarnodo(atual->esquerda, valor);
+        } else if (valor > atual->valor) {
+            atual->direita = apagarnodo(atual->direita, valor);
         } else {
             // Caso 1: Nó folha
-            if (!temp->esquerda && !temp->direita) {
-                delete temp;
+            if (!atual->esquerda && !atual->direita) {
+                delete atual;
                 return nullptr;
             }
             // Caso 2: Apenas um filho
-            else if (!temp->esquerda) {
-                node* temp_aux = temp->direita;
-                delete temp;
+            else if (!atual->esquerda) {
+                node* temp_aux = atual->direita;
+                delete atual;
                 return temp_aux;
-            } else if (!temp->direita) {
-                node* temp_aux = temp->esquerda;
-                delete temp;
+            } else if (!atual->direita) {
+                node* temp_aux = atual->esquerda;
+                delete atual;
                 return temp_aux;
             }
             // Caso 3: Dois filhos (remoção por cópia usando o maior modo da sub-árvore esquerda)
             else {
-                node* temp_aux = AcharMaiorNodo(temp->esquerda);
-                temp->valor = temp_aux->valor;
-                temp->esquerda = apagarnodo(temp->esquerda, temp_aux->valor);
+                node* temp_aux = AcharMaiorNodo(atual->esquerda);
+                atual->valor = temp_aux->valor;
+                atual->esquerda = apagarnodo(atual->esquerda, temp_aux->valor);
             }
         }
-        return temp;
+        return atual;
     }
 
     void remover(int valor) {
@@ -122,20 +122,20 @@ public:
         cout << endl;
     }
 
-    void BuscarNodo(node* atual, node*& aux, int valorBusca){ // Se não encontra, atual recebe null e mantém o aux como null, retornando o ptr nulo
+    void Busca(node* atual, node*& aux, int valorBusca){ // Aux retorna o ponteiro apontando para o nodo ou null
         if (aux){return;}
     
         if(atual && atual->valor != valorBusca){
-            BuscarNodo(atual->esquerda, aux, valorBusca);
-            BuscarNodo(atual->direita, aux, valorBusca);
+            Busca(atual->esquerda, aux, valorBusca);
+            Busca(atual->direita, aux, valorBusca);
         } else
             aux = atual;
     }
 
-    void t(){
+    void BuscarNodo(){
         //node* aux = BuscarNodo(raiz, 3);
         node* aux = nullptr;
-        BuscarNodo(raiz, aux, 15);
+        Busca(raiz, aux, 15);
 
         if(aux==nullptr){
             cout << "bret";
@@ -143,11 +143,11 @@ public:
             cout << aux->valor;
     }
 
-    void apagararvore(node* temp) {
-        if (!temp) return;
-        apagararvore(temp->esquerda);
-        apagararvore(temp->direita);
-        delete temp;
+    void apagararvore(node* atual) {
+        if (!atual) return;
+        apagararvore(atual->esquerda);
+        apagararvore(atual->direita);
+        delete atual;
     }
 
     ~binarytree() {
@@ -164,26 +164,56 @@ public:
         }
     }*/
 
-    void Altura(node* atual, int &h) {
+    /*void Altura(node* atual, int &h) {
         if (h == 0){h++;} // Desce um nível ao chamar a função, do nodo ao nodo filho
 
+        
+
         if(atual->esquerda && atual->direita){
+            int h_aux = 0;
+            if(){
+                if(atual->esquerda){Altura(atual->esquerda, h);}
+            } else {
+                if(atual->direita){Altura(atual->direita, h);}
+            }
             h++;
-            if(atual->esquerda){Altura(atual->esquerda, h);}
-            if(atual->direita){Altura(atual->direita, h);}
         } else if(atual->esquerda){
-            h++;
             Altura(atual->esquerda, h);
-        } else if(atual->direita){
             h++;
+        } else if(atual->direita){
             Altura(atual->direita, h);
+            h++;
         }        
+    }*/
+
+    int Altura(node* atual, int h) {
+        if (atual == nullptr) {return h;} // Caso base: nó vazio retorna a altura acumulada
+        if (h == 0) {h++;} // Desce um nível ao chamar a função, do nodo ao nodo filho
+        
+        if(atual->esquerda && atual->direita){        
+            int hE = Altura(atual->esquerda, h + 1); // Altura subárvore da esquerda
+            int hD = Altura(atual->direita, h + 1); // Altura subárvore da direita
+            if(hE >= hD){
+                h = hE;
+            } else if(hE < hD){
+                h = hD;
+            }
+        } else if(atual->esquerda){
+            h = Altura(atual->esquerda, h + 1);
+        } else if(atual->direita){
+            h = Altura(atual->direita, h + 1);
+        }
+        return h;
     }
+
 
     void BuscaAltura(){
         int h = 0;
-        Altura(raiz->esquerda, h);
-        cout << h;
+        h = Altura(raiz->esquerda, h);
+        cout << "Altura subárvore esquerda: " << h << endl;
+        h = 0;
+        h = Altura(raiz->direita, h);
+        cout << "Altura subárvore direita: " << h << endl;
     }
 
     void mostrarIdentada(node* atual, int contador, bool esquerda){
@@ -215,16 +245,23 @@ public:
 int main() {
     binarytree arvore;
     
-    arvore.addnode(4);
+    arvore.addnode(11);
+    arvore.addnode(5);
     arvore.addnode(2);
     arvore.addnode(6);
-    arvore.addnode(1);
+    arvore.addnode(9);
+    arvore.addnode(8);
 
-    arvore.addnode(3);
-    arvore.addnode(5);
+    
     arvore.addnode(7);
-    arvore.addnode(0);
-    arvore.addnode(3);
+    arvore.addnode(10);
+    arvore.addnode(13);
+    arvore.addnode(-1);
+    arvore.addnode(-2);
+    arvore.addnode(1);
+    
+   
+    arvore.addnode(13);
 
     arvore.percorrer();
 
@@ -235,6 +272,8 @@ int main() {
     //arvore.t();
     
     arvore.mostrar();
+
+    arvore.BuscaAltura();
 
     arvore.remover(50);
     return 0;
