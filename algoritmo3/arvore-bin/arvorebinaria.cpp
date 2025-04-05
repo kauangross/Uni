@@ -1,11 +1,13 @@
 #include "arvorebinaria.h"
 #include <iostream>
+//#include <vector>
 
 node::node(int val) : valor(val), esquerda(nullptr), direita(nullptr), fatorB(0) {}
 
 binarytree::binarytree() : raiz(nullptr) {}
 binarytree::~binarytree() {apagararvore(raiz);}
 
+// Métodos básico
 void binarytree::apagararvore(node* temp) {
     if (!temp) return;
     apagararvore(temp->esquerda);
@@ -17,25 +19,33 @@ void binarytree::UnidadeControle(int operacao){
     int aux;
     switch (operacao){
         case 1: // Adicionar nodo
-            cout << "Digite o valor:" << endl;
+            cout << "Digite o valor: ";
             cin >> aux;
-
-            // Valida a entrada
-            if (cin.fail()) {
-                cout << "Entrada inválida!\n";
-                cin.clear();
-                cin.ignore(10000, '\n');
-                break;
-            }
 
             bool cresceu;
             adicionarNodoRecursivo(raiz, aux, cresceu);
+
+            cout << "Nodo " << aux << " adicionado!" << endl << endl; 
+            mostrarIdentada(raiz, 0, 0);
             break;
+        /*case 8: // Adicionar conjunto de nodos
+            vector<int> valores;
+
+            break;*/
         case 2: // Reemover nodo
-            cout << "Digite o valor do nodo que deseja remover: " ;
+            {cout << "Digite o valor do nodo que deseja remover: " ;
             cin >> aux;
-            bool diminuiu;
-            removerRecursao(aux, raiz, diminuiu);
+            
+            node* nodo_busca = nullptr;
+            BuscarNodo(raiz, nodo_busca, aux);
+            if(nodo_busca != nullptr){
+                bool diminuiu;
+                removerRecursivo(aux, raiz, diminuiu);
+
+                cout << "Nodo " << aux << " removido!" << endl << endl; 
+                mostrarIdentada(raiz, 0, 0);
+            }else
+                cout << "Nodo nao econtrado!" << endl;}
             break;
         case 3:
             {node* nodo_busca = nullptr;
@@ -46,7 +56,7 @@ void binarytree::UnidadeControle(int operacao){
             if(nodo_busca != nullptr){
                 cout << nodo_busca->valor << endl;
             }else
-                cout << "Valor nao econtrado" << endl;}
+                cout << "Nodo nao econtrado" << endl;}
             break;
         case 4:
             mostrarPreOrdem(raiz);
@@ -65,17 +75,6 @@ void binarytree::UnidadeControle(int operacao){
             break;
     }
     cout << endl << endl;
-}
-
-// Métodos básicos da árvore
-void binarytree::addnode(int val){
-    bool cresceu;
-    adicionarNodoRecursivo(raiz, val, cresceu);
-}
-
-void binarytree::remover(int valor) {
-    bool diminuiu;
-    removerRecursao(valor, raiz, diminuiu);
 }
 
 void binarytree::adicionarNodoRecursivo(node*& atual, int val, bool& cresceu) {//Método percorre a função atrávez da recursão
@@ -101,12 +100,12 @@ void binarytree::adicionarNodoRecursivo(node*& atual, int val, bool& cresceu) {/
     if(cresceu && atual->fatorB == 0){cresceu = false;}
 }
 
-void binarytree::removerRecursao(int val, node*& atual, bool& diminuiu) {
+void binarytree::removerRecursivo(int val, node*& atual, bool& diminuiu) {
     if(val < atual->valor) {//esquerda
-        removerRecursao(val, atual->esquerda, diminuiu);
+        removerRecursivo(val, atual->esquerda, diminuiu);
         if(diminuiu){atual->fatorB+=1;}
     } else if (val > atual->valor) {//direita
-        removerRecursao(val, atual->direita, diminuiu);
+        removerRecursivo(val, atual->direita, diminuiu);
         if(diminuiu){atual->fatorB-=1;}
     } else {
         apagarNodo(atual, diminuiu);
@@ -135,17 +134,26 @@ void binarytree::apagarNodo(node*& atual, bool& diminuiu){
     else {
         temp = AcharMaiorNodo(temp->esquerda);
         atual->valor = temp->valor;
-        removerRecursao(temp->valor, temp->esquerda, diminuiu);
+        removerRecursivo(temp->valor, atual->esquerda, diminuiu);
         if(diminuiu){atual->fatorB+=1;}
     }
 }
-
 
 node* binarytree::AcharMaiorNodo(node* raiz_sub) {
     while (raiz_sub->direita) {
         raiz_sub = raiz_sub->direita;
     }
     return raiz_sub;
+}
+
+void binarytree::BuscarNodo(node* atual, node*& nodo_busca, int valorBusca){ // Se não encontra, atual recebe null e mantém o aux como null, retornando o ptr nulo
+    if (nodo_busca){return;}
+
+    if(atual && atual->valor != valorBusca){
+        BuscarNodo(atual->esquerda, nodo_busca, valorBusca);
+        BuscarNodo(atual->direita, nodo_busca, valorBusca);
+    } else
+        nodo_busca = atual;
 }
 
 // Balanceamento
@@ -287,43 +295,6 @@ void binarytree::mostrarIdentada(node* atual, int contador, bool esquerda){
         mostrarIdentada(atual->esquerda, contador, true); //nodo da esquerda
         mostrarIdentada(atual->direita, contador, false); //nodo da direita
     }
-}
-
-void binarytree::BuscarNodo(node* atual, node*& nodo_busca, int valorBusca){ // Se não encontra, atual recebe null e mantém o aux como null, retornando o ptr nulo
-    if (nodo_busca){return;}
-
-    if(atual && atual->valor != valorBusca){
-        BuscarNodo(atual->esquerda, nodo_busca, valorBusca);
-        BuscarNodo(atual->direita, nodo_busca, valorBusca);
-    } else
-        nodo_busca = atual;
-}
-
-void binarytree::mostrar(int auxiliar) {
-    switch (auxiliar){
-        case 1:
-            mostrarPreOrdem(raiz);
-            break;
-        case 2:
-            mostrarEmOrdem(raiz);
-            break;
-        case 3:
-            mostrarPosOrdem(raiz);
-            break;
-        case 4:
-            mostrarIdentada(raiz, 0, 0);
-            break;
-        default:
-            cout << endl << "Finalizando...";
-            break;
-    }
-    cout << endl;
-}
-
-//Outros métodos
-void binarytree::t(){
-    //node* aux = BuscarNodo(raiz, 3);
-    
 }
 
 void binarytree::menu(){

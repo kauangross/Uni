@@ -1,5 +1,6 @@
 #include <iostream>
 #include "arvorebinaria.h"
+#include <vector>
 using namespace std;
 
 //g++ main.cpp arvorebinaria.cpp -o main.exe
@@ -10,11 +11,6 @@ int main() {
     int resposta = 0;
 
     cout << "=========== ARVORE BINARIA ===========" << endl;
-
-    int valores[] = {50, 20, 70, 10, 30, 60, 80, 5, 15, 25, 35};
-    for (int val : valores) {
-        arvore.addnode(val);
-    }
 
     arvore.menu();
     cin >> resposta;

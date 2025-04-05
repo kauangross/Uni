@@ -2,6 +2,7 @@
 #define ARVOREBINARIA_H
 
 #include <iostream>
+//#include <vector>
 using namespace std;
 
 class node {
@@ -19,7 +20,8 @@ private:
     node* raiz;
 
     void adicionarNodoRecursivo(node*& atual, int val, bool& cresceu);
-    void removerRecursao(int val, node*& atual, bool& diminuiu);
+    //void inserirConjunto(vector<int>& valores);
+    void removerRecursivo(int val, node*& atual, bool& diminuiu);
     void apagarNodo(node*& atual, bool& diminuiu);
     void apagararvore(node* temp);
 
@@ -41,14 +43,6 @@ public:
     ~binarytree();
 
     void menu();
-
     void UnidadeControle(int operacao);
-
-    void addnode(int val);
-    void remover(int val);
-    void t();
-    void mostrar(int auxiliar);
-
 };
-
 #endif

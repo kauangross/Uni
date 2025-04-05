@@ -236,10 +236,6 @@ public:
             mostrarIdentada(atual->direita, contador, false); //nodo da direita
         }
     }
-
-    void mostrar(){
-        mostrarIdentada(raiz, 0, 0);
-    }
 };
 
 int main() {
@@ -271,7 +267,7 @@ int main() {
 
     //arvore.t();
     
-    arvore.mostrar();
+  
 
     arvore.BuscaAltura();
 
