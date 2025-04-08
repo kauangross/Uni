@@ -16,7 +16,7 @@ int main() {
     cin >> resposta;
     arvore.UnidadeControle(resposta);
 
-    while(resposta != 0){
+    while(resposta >= 1 && resposta <= 7){
         arvore.menu();
         cin >> resposta;
         arvore.UnidadeControle(resposta);

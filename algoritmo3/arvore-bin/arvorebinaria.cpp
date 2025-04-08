@@ -19,58 +19,63 @@ void binarytree::UnidadeControle(int operacao){
     int aux;
     switch (operacao){
         case 1: // Adicionar nodo
-            cout << "Digite o valor: ";
+            {cout << "Digite o valor: ";
             cin >> aux;
 
-            bool cresceu;
-            adicionarNodoRecursivo(raiz, aux, cresceu);
+            node* nodo_busca = nullptr;
+            BuscarNodo(raiz, nodo_busca, aux);
+            if(nodo_busca == nullptr){
+                bool cresceu;
+                adicionarNodoRecursivo(raiz, aux, cresceu);
 
-            cout << "Nodo " << aux << " adicionado!" << endl << endl; 
-            mostrarIdentada(raiz, 0, 0);
+                cout << "Nodo " << aux << " adicionado!" << endl << endl; 
+                mostrarIdentada(raiz, 0, 0);
+            }else
+                cout << "Falha ao adicionar! Nodo existente." << endl;}
             break;
-        /*case 8: // Adicionar conjunto de nodos
-            vector<int> valores;
-
-            break;*/
         case 2: // Reemover nodo
             {cout << "Digite o valor do nodo que deseja remover: " ;
             cin >> aux;
             
             node* nodo_busca = nullptr;
             BuscarNodo(raiz, nodo_busca, aux);
-            if(nodo_busca != nullptr){
-                bool diminuiu;
-                removerRecursivo(aux, raiz, diminuiu);
+            if(raiz == nullptr){
+                cout << "Arvore vazia!" << endl;
+            } else if(nodo_busca != nullptr){
+                    bool diminuiu;
+                    removerRecursivo(aux, raiz, diminuiu);
 
-                cout << "Nodo " << aux << " removido!" << endl << endl; 
-                mostrarIdentada(raiz, 0, 0);
+                    cout << endl << "Nodo " << aux << " removido!" << endl << endl; 
+                    mostrarIdentada(raiz, 0, 0);
             }else
-                cout << "Nodo nao econtrado!" << endl;}
+                cout << endl << "Nodo nao econtrado!" << endl;}
             break;
-        case 3:
+        case 3: // Busca
             {node* nodo_busca = nullptr;
             cout << "Digite o valor: " << endl;
             cin >> aux;
 
             BuscarNodo(raiz, nodo_busca, aux);
-            if(nodo_busca != nullptr){
-                cout << nodo_busca->valor << endl;
-            }else
-                cout << "Nodo nao econtrado" << endl;}
+
+            if(raiz == nullptr){
+                cout << "Arvore vazia!" << endl;
+            } else if(nodo_busca == nullptr){
+                cout << "Nodo nao econtrado" << endl;
+            }            }    
             break;
-        case 4:
-            mostrarPreOrdem(raiz);
+        case 4: // Exibir pre-ordem
+            if(raiz != nullptr){mostrarPreOrdem(raiz);} else cout << "Arvore vazia!" << endl;
             break;
-        case 5:
-            mostrarEmOrdem(raiz);
+        case 5: // Exibir em-ordem
+            if(raiz != nullptr){mostrarEmOrdem(raiz);} else cout << "Arvore vazia!" << endl;
             break;
-        case 6:
-            mostrarPosOrdem(raiz);
+        case 6: // Exibir pos-ordem
+            if(raiz != nullptr){mostrarPosOrdem(raiz);} else cout << "Arvore vazia!" << endl;
             break;
-        case 7:
-            mostrarIdentada(raiz, 0, 0);
+        case 7: // Exibir arvore completa
+            if(raiz != nullptr){mostrarIdentada(raiz, 0, 0);} else cout << "Arvore vazia!" << endl;
             break;
-        default:
+        default: // Finaliza
             cout << "Finalizando...";
             break;
     }
@@ -147,13 +152,31 @@ node* binarytree::AcharMaiorNodo(node* raiz_sub) {
 }
 
 void binarytree::BuscarNodo(node* atual, node*& nodo_busca, int valorBusca){ // Se não encontra, atual recebe null e mantém o aux como null, retornando o ptr nulo
-    if (nodo_busca){return;}
+    if (atual == nullptr || nodo_busca != nullptr) return; // Caso base: árvore vazia ou já encontrou
 
-    if(atual && atual->valor != valorBusca){
-        BuscarNodo(atual->esquerda, nodo_busca, valorBusca);
-        BuscarNodo(atual->direita, nodo_busca, valorBusca);
-    } else
+    if (atual->valor == valorBusca) {
         nodo_busca = atual;
+
+        cout << "Nodo " << nodo_busca->valor << " encontrado:" << endl << endl;
+        if (nodo_busca->esquerda != nullptr && nodo_busca->direita != nullptr) {
+            cout << "->" << nodo_busca->valor << "<-" << endl << "   (E) " << nodo_busca->esquerda->valor << endl;
+            cout << "   (D) " << nodo_busca->direita->valor << endl;
+        } else if (nodo_busca->esquerda != nullptr) {
+            cout << "->" << nodo_busca->valor << "<-" << endl << "   (E) " << nodo_busca->esquerda->valor << endl;
+        } else if (nodo_busca->direita != nullptr) {
+            cout << "->" << nodo_busca->valor << "<-" << endl << "   (D) " << nodo_busca->direita->valor << endl;
+        } else if (nodo_busca == raiz) {
+            cout << "Nodo eh uma raiz!" << endl;
+        } else {
+            cout << "Nodo eh uma folha!" << endl;
+        }
+
+        return;
+    }
+
+    // Busca recursiva nos filhos
+    BuscarNodo(atual->esquerda, nodo_busca, valorBusca);
+    BuscarNodo(atual->direita, nodo_busca, valorBusca);
 }
 
 // Balanceamento
